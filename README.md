@@ -1,4 +1,7 @@
-Структура проекта
+Project Organization
+------------
+
+```
 
 ├── README.md                  
 ├── data                         
@@ -18,3 +21,4 @@
     │
     └── models                   # ML model engineering (a folder for each model).
         └── model1      
+```
