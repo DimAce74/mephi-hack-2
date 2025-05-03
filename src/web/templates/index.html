@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обработчик текста</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<script>
+    document.querySelector('form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const response = await fetch('/', {
+            method: 'POST',
+            body: formData
+        });
+        const html = await response.text();
+        document.body.innerHTML = html;
+    });
+    </script>
+<body>
+    <div class="container">
+        <h1>Форма обработки текста</h1>
+        
+        <form method="POST">
+            <div class="form-group">
+                <label for="user_text">Введите текст:</label>
+                <textarea id="user_text" name="user_text" rows="4" required></textarea>
+            </div>
+            <button type="submit">Отправить</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <h2>Запрос:</h2>
+            <p>{{ text }}</p>
+            <h2>Результат:</h2>
+            <p>{{ result }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
