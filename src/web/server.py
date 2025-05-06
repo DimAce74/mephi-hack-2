@@ -3,8 +3,8 @@ from transformers import BertTokenizer, BertForSequenceClassification
 import torch
 
 # загружаем модель из файла
-model = BertForSequenceClassification.from_pretrained("./models/bert_one")
-tokenizer = BertTokenizer.from_pretrained("./models/bert_one")
+model = BertForSequenceClassification.from_pretrained("./models/bert_other", problem_type="multi_label_classification")
+tokenizer = BertTokenizer.from_pretrained("./models/bert_other")
 
 # создаём приложение
 app = Flask(__name__)
@@ -24,16 +24,22 @@ def predict(text):
         outputs = model(**inputs)
     
     # Получение метки класса
-    probs = torch.softmax(outputs.logits, dim=1)
+    probs = torch.sigmoid(outputs.logits)
     pred_class = torch.argmax(probs).item()
+
+    print(outputs.logits)
+    print(probs)
+    print(torch.argmax(outputs.logits))
+    print(torch.softmax(outputs.logits, dim=1))
     
     id2label = {
-        0: "личная жизнь",
-        1: "политика", 
-        2: "реклама",
-        3: "соцсети",
-        4: "спорт",
-        5: "юмор"
+        0: 'другое',
+        1: "личная жизнь",
+        2: "политика", 
+        3: "реклама",
+        4: "соцсети",
+        5: "спорт",
+        6: "юмор"
     }
 
     res = {}
